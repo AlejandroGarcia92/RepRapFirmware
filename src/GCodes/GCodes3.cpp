@@ -221,10 +221,25 @@ GCodeResult GCodes::Exec_FilamentLoad_Edurne(GCodeBuffer& gb, const StringRef& r
 
 	return GCodeResult::ok;
 }
-void GCodes::Exec_pushboth_f_Edurne() // Alejandro Garcia 19/06/2019
+GCodeResult GCodes::Lang_FilamentLoad_Edurne(GCodeBuffer& gb, const StringRef& reply) // Alejandro Garcia 15/05/2019
+{
+	int32_t langlang = 0;
+	if (gb.Seen('C'))
+	{
+		langlang = gb.GetIValue();
+	}else return GCodeResult::badOrMissingParameter;
+
+	String<ShortScratchStringLength> scratchString;
+	scratchString.printf("langlangT%d.g", (int)langlang);
+
+	DoFileMacro(*fileGCode, scratchString.c_str(), true, 98); // running a system macro
+
+	return GCodeResult::ok;
+}
+void GCodes::Exec_pushboth_f_Edurne(int tool) // Alejandro Garcia 19/06/2019
 {
 	String<ShortScratchStringLength> scratchString;
-	scratchString.printf("pushbothf.g"); // This gcode is executed by Edurne and Printer ant the same time
+	scratchString.printf("pushbothf%d.g", tool);
 
 	DoFileMacro(*queuedGCode, scratchString.c_str(), true, 98); // running a system macro
 }
@@ -242,10 +257,11 @@ void GCodes::Exec_unloadsync_Edurne() // Alejandro Garcia 19/06/2019
 
 	DoFileMacro(*queuedGCode, scratchString.c_str(), true, 98); // running a system macro
 }
-void GCodes::Exec_pushunloadalone_Edurne() // Alejandro Garcia 19/06/2019
+void GCodes::Exec_pushunloadalone_Edurne(int tool) // Alejandro Garcia 19/06/2019
 {
+
 	String<ShortScratchStringLength> scratchString;
-	scratchString.printf("pushunloadalone.g");
+	scratchString.printf("pushunloadalone%d.g", tool);
 
 	DoFileMacro(*queuedGCode, scratchString.c_str(), true, 0); // running a system macro
 

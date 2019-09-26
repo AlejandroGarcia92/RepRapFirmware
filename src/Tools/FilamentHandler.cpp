@@ -98,6 +98,7 @@ void FilamentHandler::loadfsm(){
 		case load_state::edurne_accept:
 			loading_status = load_state::edurne_start;
 			reprap.GetPlatform().MessageF(Uart0_duet2, "M705 C%d\n",int(status[1][current_pos_queue]));
+			reprap.GetPlatform().MessageF(Uart0_duet2, "M707 C%d\n",int(status[2][current_pos_queue]));//langlang position
 			reprap.GetPlatform().MessageF(Uart0_duet2, "M706 S1\n"); // Request Filament push until it receives a stop
 			isFil = false;
 			SetChangingFilamenACK(status[2][current_pos_queue], 1);
@@ -130,7 +131,7 @@ void FilamentHandler::loadfsm(){
 			{
 				if(millis() < timeout_timer + 3000){
 					if(isACK){//edurne stops
-						reprap.GetGCodes().Exec_pushboth_f_Edurne();
+						reprap.GetGCodes().Exec_pushboth_f_Edurne(status[2][current_pos_queue]);
 						loading_status = load_state::ending;
 					}
 				}else{
@@ -211,7 +212,7 @@ void FilamentHandler::unloadfsm(){
 			reprap.GetPlatform().MessageF(HttpMessage, "edurne_accept\n");
 			unloading_status = unload_state::printer_start;
 			isBusy = true;
-			reprap.GetGCodes().Exec_pushunloadalone_Edurne();
+			reprap.GetGCodes().Exec_pushunloadalone_Edurne((int)status[2][current_pos_queue]);
 			break;
 		case unload_state::printer_start://cuidao
 			{

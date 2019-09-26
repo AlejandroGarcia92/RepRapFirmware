@@ -242,8 +242,8 @@ public:
 
 #ifdef BCN3D_DEV
 	void Exec_pushboth_b_Edurne();										//BCN3D method for pushing E printer and edurne together back
-	void Exec_pushboth_f_Edurne();										//BCN3D method for pushing E printer and edurne together forward
-	void Exec_pushunloadalone_Edurne();										//BCN3D method for pushing E printer alone
+	void Exec_pushboth_f_Edurne(int tool);										//BCN3D method for pushing E printer and edurne together forward
+	void Exec_pushunloadalone_Edurne(int tool);										//BCN3D method for pushing E printer alone
 	void Exec_unloadsync_Edurne();										//BCN3D unloadsync
 	void autoresume_Edurne();											//Auto resume
 #endif
@@ -317,6 +317,7 @@ private:
 	GCodeResult ConfiguteRFIDReader(GCodeBuffer& gb, const StringRef& reply);   // BCN3D method to configure SPI for RFID r/w
 	GCodeResult Prep_FilamentLoad_Edurne(GCodeBuffer& gb, const StringRef& reply);     // BCN3D method prepare the load routine Edurne
 	GCodeResult Exec_FilamentLoad_Edurne(GCodeBuffer& gb, const StringRef& reply);     // BCN3D method execute the load routine Edurne
+	GCodeResult Lang_FilamentLoad_Edurne(GCodeBuffer& gb, const StringRef& reply);     // BCN3D method execute the load routine Edurne
 #endif
 
 	GCodeResult SetOrReportOffsets(GCodeBuffer& gb, const StringRef& reply);	// Deal with a G10

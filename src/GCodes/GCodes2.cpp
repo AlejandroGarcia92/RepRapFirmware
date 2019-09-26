@@ -4154,6 +4154,9 @@ bool GCodes::HandleMcode(GCodeBuffer& gb, const StringRef& reply)
 	case 706://exec load routine Edurne
 		result = Exec_FilamentLoad_Edurne(gb,reply);
 		break;
+	case 707://exec lang routine Edurne
+		result = Exec_FilamentLoad_Edurne(gb,reply);
+		break;
 #endif
 #if SUPPORT_SCANNER
 	case 750: // Enable 3D scanner extension
